@@ -1,0 +1,16 @@
+import {useEffect,useState} from 'react';import {Link} from 'react-router-dom';import {supabase} from '../lib/supabase';
+export default function Home(){const[top,setTop]=useState<any[]>([]);const[news,setNews]=useState<any[]>([]);const[pics,setPics]=useState<any[]>([]);
+const [best, setBest] = useState < any > (null);
+useEffect(() => { supabase.rpc('overall_best').then(r => setBest(r.data?.[0] || null)) }, []);
+
+useEffect(()=>{supabase.rpc('top_scorers').then(r=>setTop(r.data||[]));supabase.from('announcements').select('*').order('created_at',{ascending:false}).limit(5).then(r=>setNews(r.data||[]));supabase.from('gallery').select('*').order('created_at',{ascending:false}).limit(8).then(r=>setPics(r.data||[]))},[]);
+return<div><Nav className="bg-navy text-white p-4 flex justify-between items-center"><b className="text-2xl text-gold">Pan African CSS</b><Link className="btn !bg-gold !text-navy" to="/login">Login / Check Result</Link></Nav>
+<section className="p-6 bg-gray-50"><div className="max-w-4xl mx-auto flex flex-col sm:flex-row gap-6 items-center">
+<img src="/principal.jpg" alt="Principal of Pan African CSS" className="w-40 h-40 rounded-full object-cover border-4 border-gold" onError={e=>(e.currentTarget.style.display='none')}/>
+<div><h1 className="text-3xl font-bold text-navy">Welcome to Pan African CSS</h1>
+<p className="mt-3 text-lg">Dear Parents and Students, welcome to our school website. At Pan African CSS we are committed to raising disciplined, excellent and God-fearing students. You can check results, read the news and see our gallery here. Thank you for trusting us with your children.</p>
+<p className="mt-2 font-bold text-navy">— The Principal</p></div></div></section>
+{best&&<section className="p-6 text-center bg-navy text-white"><h2 className="text-2xl font-bold text-gold">🏆 Overall Best Student</h2>{best.photo_url&&<img src={best.photo_url} className="w-28 h-28 rounded-full mx-auto my-2 object-cover"/>}<b className="text-xl">{best.full_name}</b><div>{best.class_name} • Average {best.average}%</div></section>}
+<section className="p-6"><h2 className="text-2xl font-bold text-navy mb-3">Top Students</h2><div className="grid sm:grid-cols-3 gap-4">{top.map((s,i)=><div key={i} className="border-2 border-gold rounded-xl p-4 text-center">{s.photo_url&&<img src={s.photo_url} className="w-24 h-24 rounded-full mx-auto object-cover"/>}<b>{s.full_name}</b><div>{s.class_name} • Average {s.average}%</div><div className="text-gold font-bold">{s.rank_label}</div></div>)}</div></section>
+<section className="p-6"><h2 className="text-2xl font-bold text-navy mb-3">News Board</h2>{news.map(n=><div key={n.id} className="border-b py-2"><b>{n.title}</b><p>{n.body}</p></div>)}</section>
+<section className="p-6"><h2 className="text-2xl font-bold text-navy mb-3">Gallery</h2><div className="grid grid-cols-2 sm:grid-cols-4 gap-2">{pics.map(p=><img key={p.id} src={p.url} alt={p.caption||'School photo'} className="rounded-lg h-32 w-full object-cover"/>)}</div></section></div>}

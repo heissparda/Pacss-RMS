@@ -1,0 +1,4 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+.btn{@apply bg-navy text-white font-bold rounded-xl px-6 py-3 text-lg hover:bg-gold hover:text-navy}
+.inp{@apply border-2 rounded-xl p-3 text-lg w-full}
+@media print{.noprint{display:none}}

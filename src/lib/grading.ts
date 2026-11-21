@@ -1,0 +1,2 @@
+export const grade=(t:number):[string,string]=>t>=70?['A','Excellent']:t>=60?['B','Very Good']:t>=50?['C','Good']:t>=40?['D','Fair']:['F','Needs Improvement'];
+export const GRADING=[['A','70-100','Excellent'],['B','60-69','Very Good'],['C','50-59','Good'],['D','40-49','Fair'],['F','0-39','Fail']];
