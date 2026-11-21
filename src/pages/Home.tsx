@@ -4,7 +4,7 @@ const [best, setBest] = useState < any > (null);
 useEffect(() => { supabase.rpc('overall_best').then(r => setBest(r.data?.[0] || null)) }, []);
 
 useEffect(()=>{supabase.rpc('top_scorers').then(r=>setTop(r.data||[]));supabase.from('announcements').select('*').order('created_at',{ascending:false}).limit(5).then(r=>setNews(r.data||[]));supabase.from('gallery').select('*').order('created_at',{ascending:false}).limit(8).then(r=>setPics(r.data||[]))},[]);
-return<div><Nav className="bg-navy text-white p-4 flex justify-between items-center"><b className="text-2xl text-gold">Pan African CSS</b><Link className="btn !bg-gold !text-navy" to="/login">Login / Check Result</Link></Nav>
+return<div><nav className="bg-navy text-white p-4 flex justify-between items-center"><b className="text-2xl text-gold">Pan African CSS</b><Link className="btn !bg-gold !text-navy" to="/login">Login / Check Result</Link></nav>
 <section className="p-6 bg-gray-50"><div className="max-w-4xl mx-auto flex flex-col sm:flex-row gap-6 items-center">
 <img src="/principal.jpg" alt="Principal of Pan African CSS" className="w-40 h-40 rounded-full object-cover border-4 border-gold" onError={e=>(e.currentTarget.style.display='none')}/>
 <div><h1 className="text-3xl font-bold text-navy">Welcome to Pan African CSS</h1>
